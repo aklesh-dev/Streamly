@@ -1,7 +1,7 @@
 import axios from 'axios';
 import "dotenv/config";
 ;
-export const isAuth = async (req, res, next) => {
+export const isAdminAuth = async (req, res, next) => {
     try {
         const token = req.headers.token;
         if (!token) {
@@ -13,7 +13,7 @@ export const isAuth = async (req, res, next) => {
                 token,
             },
         });
-        req.user = data;
+        req.user = data.user;
         next();
     }
     catch (error) {

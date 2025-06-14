@@ -4,18 +4,18 @@ import "dotenv/config";
 
 interface IUser {
   _id: string;
-  email: string;
   name: string;
-  role: string;
+  email: string;
   password: string;
+  role: string;
   playlist: string[];
 }
 
 interface AuthenticatedRequest extends Request {
-  user: IUser | null;
+  user?: IUser | null;
 };
 
-export const isAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const isAdminAuth = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const token = req.headers.token as string;
     if(!token) {
@@ -27,7 +27,7 @@ export const isAuth = async (req: AuthenticatedRequest, res: Response, next: Nex
         token,
       },
     });
-    req.user = data;
+    req.user = data.user;
     next();
 
   } catch (error) {
